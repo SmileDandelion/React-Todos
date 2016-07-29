@@ -12,8 +12,10 @@
 <script type="text/babel">
     var HelloWorld = React.createClass({
         render: function () {
-            return (
-                    <h1>hello {this.props.name},{this.props.children}</h1>
+            return (<div>
+                        <h1>hello {this.props.name}</h1>
+                        <p>{this.props.children}</p>
+                    </div>
             );
 
         }
