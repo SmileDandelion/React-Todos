@@ -10,21 +10,26 @@
 <script src="../../build/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
-    var HelloWorld = React.createClass({
-        dothing:function () {
-            alert('I\'m a event!');
+    <div id="container"></div>
+    var Counter = React.createClass({
+        increment: function () {
+            this.setState({count:this.state.count+1});
+        },
+        getInitialState: function () {
+            return {
+                count: 0
+            };
         },
         render: function () {
-            return (<div>
-                        <h1>hello {this.props.name}</h1>
-                        <p>{this.props.children}</p>
-                        <a href="#" onClick={this.dothing}>Click me!</a>
+            return (
+                    <div>
+                        <h1>数量: {this.state.count}</h1>
+                        <button onClick={this.increment}> +1</button>
                     </div>
             );
-
         }
     });
-    ReactDOM.render(<HelloWorld name="use props get property">use props get children</HelloWorld>, document.getElementById('container'));
+    ReactDOM.render(<Counter/>, document.getElementById('container'));
 </script>
 </body>
 </html>
