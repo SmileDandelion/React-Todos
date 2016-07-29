@@ -11,17 +11,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
     var HelloWorld = React.createClass({
-        render: ()=> {
+        render: function () {
             return (
-                    <h1 className='world'>hello world</h1>
+                    <h1>hello {this.props.name}</h1>
             );
+
         }
     });
     ReactDOM.render(
             <div>
-                <HelloWorld/>
-                <HelloWorld/>
-                <HelloWorld/>
+                <HelloWorld name="transfer"/>
+                <HelloWorld name="property"/>
+                <HelloWorld name="value"/>
             </div>, document.getElementById('container'));
 </script>
 </body>
