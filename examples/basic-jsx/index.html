@@ -13,16 +13,16 @@
     var HelloWorld = React.createClass({
         render: function () {
             return (
-                    <h1>hello {this.props.name}</h1>
+                    <h1>hello {this.props.name},{this.props.children}</h1>
             );
 
         }
     });
     ReactDOM.render(
             <div>
-                <HelloWorld name="transfer"/>
-                <HelloWorld name="property"/>
-                <HelloWorld name="value"/>
+                <HelloWorld name="transfer">not only use props get property</HelloWorld>
+                <HelloWorld name="property">but also children Written in module</HelloWorld>
+                <HelloWorld name="value">use props get children</HelloWorld>
             </div>, document.getElementById('container'));
 </script>
 </body>
