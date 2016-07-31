@@ -15,6 +15,22 @@
 <script src="../../build/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
+    var TodoFooter = React.createClass({
+        clearCompleted() {
+          this.props.clearCompleted();
+        },
+       render:function () {
+           return (
+                   <li>{this.props.items.length} items left
+                       <button>All</button>
+                       <button>Active</button>
+                       <button>Completed</button>
+                       <button onClick={this.clearCompleted}>clear Completed</button>
+                   </li>
+           );
+       }
+    });
+
     var TodoItem = React.createClass({
         handleDelete(){
             this.props.handleDelete(this.props.index);
@@ -35,24 +51,12 @@
 
 
     var TodoList = React.createClass({
-        handleChange(){
-            this.props.handleChange(index, Done);
-        },
-        handleDelete(){
-            this.props.handleDelete(index);
-        },
         render: function () {
             return (
                     <ul>{this.props.items.map((createItem, index) => {
-                        return <TodoItem handleDelete={this.props.handleDelete} handleChange={this.props.handleChange}
-                                         onChange={this.handleChange} item={createItem} index={index}/>
-
+                        return <TodoItem handleDelete={this.props.handleDelete} handleChange={this.props.handleChange} item={createItem} index={index}/>
                     })}
-                        <li>{this.props.items.length} items left
-                            <button>All</button>
-                            <button>Active</button>
-                            <button>Completed</button>
-                        </li>
+                        <TodoFooter  items={this.props.items} clearCompleted={this.props.clearCompleted}/>
                     </ul>
             );
         }
@@ -86,13 +90,17 @@
                 this.setState({items: this.state.items, allChecked: false});
             }
         },
+        clearCompleted:function () {
+            let items = this.state.items.filter(item=>!item.isDone);
+            this.setState({items:items,allChecked:false});
+        },
         render: function () {
             return (
                     <div>
                         <h1>todos</h1>
                         <input onKeyUp={this.handleSubmit} type="text" placeholder="what's your task ?"/>
                         <TodoList items={this.state.items} handleDelete={this.handleDelete}
-                                  handleChange={this.handleChange}/>
+                                  handleChange={this.handleChange} clearCompleted = {this.clearCompleted}/>
                     </div>
             );
         }
