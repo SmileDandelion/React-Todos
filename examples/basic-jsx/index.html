@@ -68,7 +68,7 @@
             this.setState({items: this.state.items});
         },
         handleDelete: function (index) {
-            this.state.items.splice(index);
+            this.state.items.splice(index,1);
             this.setState({items: this.state.items});
         },
         handleSubmit: function (e) {
