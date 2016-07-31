@@ -21,7 +21,7 @@
         },
        render:function () {
            return (
-                   <li>{this.props.items.length} items left
+                   <li>{this.props.items.filter(item=>!item.isDone).length} items left
                        <button>All</button>
                        <button>Active</button>
                        <button>Completed</button>
