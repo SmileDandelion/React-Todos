@@ -11,9 +11,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
     var TodoItem = React.createClass({
+        handleChange: function () {
+            let isDone = !this.props.item.isDone;
+            this.state.items[this.props.index].isDone=isDone;
+        },
         render: function () {
             return (
-                    <li><input type="checkbox" checked={this.props.item.isDone}/>
+                    <li><input type="checkbox" checked={this.props.item.isDone} onChange={this.handleChange.bind(this)}/>
                         <span>{this.props.item.text}</span>
                         <button>X</button>
                     </li>
@@ -25,8 +29,8 @@
     var TodoList = React.createClass({
         render: function () {
             return (
-                    <ul>{this.props.items.map(function (createItem) {
-                        return <TodoItem item={createItem}/>
+                    <ul>{this.props.items.map((createItem, index) => {
+                        return <TodoItem item={createItem} index={index}/>
 
                     })}
                         <li>{this.props.items.length} items left
@@ -43,7 +47,7 @@
             return {items: [], allChecked: false};
         },
         handleSubmit: function (e) {
-            if (e.keyCode===13) {
+            if (e.keyCode === 13) {
                 let value = e.target.value;
                 if (!value) {
                     return false;
