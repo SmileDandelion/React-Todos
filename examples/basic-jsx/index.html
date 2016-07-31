@@ -10,26 +10,54 @@
 <script src="../../build/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
-    <div id="container"></div>
-    var Counter = React.createClass({
-        increment: function () {
-            this.setState({count:this.state.count+1});
-        },
-        getInitialState: function () {
-            return {
-                count: 0
+    var TodoList = React.createClass({
+        render: function () {
+            var createItem = function (itemText) {
+                return (
+                        <li><input type="checkbox"/>
+                            {itemText}
+                            <button>X</button>
+                        </li>
+                );
             };
+            return (
+                    <ul>{this.props.items.map(createItem)}
+                        <li>{this.props.items.length} items left
+                            <button>All</button>
+                            <button>Active</button>
+                            <button>Completed</button>
+                        </li>
+                    </ul>
+            );
+        }
+    });
+    var TodoApp = React.createClass({
+        getInitialState: function () {
+            return {items: [], text: ''};
+        },
+        onChange: function (e) {
+            this.setState({text: e.target.value});
+        },
+        handleSubmit: function (e) {
+            e.preventDefault();
+            var nextItems = this.state.items.concat([this.state.text]);
+            var nextText = '';
+            this.setState({items: nextItems, text: nextText});
         },
         render: function () {
             return (
                     <div>
-                        <h1>数量: {this.state.count}</h1>
-                        <button onClick={this.increment}> +1</button>
+                        <h1>todos</h1>
+                        <form onSubmit={this.handleSubmit}>
+                            <input onChange={this.onChange} value={this.state.text}/>
+                        </form>
+                        <TodoList items={this.state.items}/>
                     </div>
             );
         }
     });
-    ReactDOM.render(<Counter/>, document.getElementById('container'));
+
+    ReactDOM.render(<TodoApp />, document.getElementById('container'));
 </script>
 </body>
 </html>
