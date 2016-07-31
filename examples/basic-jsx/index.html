@@ -10,18 +10,25 @@
 <script src="../../build/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 <script type="text/babel">
+    var TodoItem = React.createClass({
+        render: function () {
+            return (
+                    <li><input type="checkbox" checked={this.props.item.isDone}/>
+                        <span>{this.props.item.text}</span>
+                        <button>X</button>
+                    </li>
+            );
+        }
+    });
+
+
     var TodoList = React.createClass({
         render: function () {
-            var createItem = function (itemText) {
-                return (
-                        <li><input type="checkbox"/>
-                            {itemText}
-                            <button>X</button>
-                        </li>
-                );
-            };
             return (
-                    <ul>{this.props.items.map(createItem)}
+                    <ul>{this.props.items.map(function (createItem) {
+                        return <TodoItem item={createItem}/>
+
+                    })}
                         <li>{this.props.items.length} items left
                             <button>All</button>
                             <button>Active</button>
@@ -33,24 +40,28 @@
     });
     var TodoApp = React.createClass({
         getInitialState: function () {
-            return {items: [], text: ''};
-        },
-        onChange: function (e) {
-            this.setState({text: e.target.value});
+            return {items: [], allChecked: false};
         },
         handleSubmit: function (e) {
-            e.preventDefault();
-            var nextItems = this.state.items.concat([this.state.text]);
-            var nextText = '';
-            this.setState({items: nextItems, text: nextText});
+            if (e.keyCode===13) {
+                let value = e.target.value;
+                if (!value) {
+                    return false;
+                }
+                let newTodoItem = {
+                    text: value,
+                    isDone: false
+                };
+                this.state.items.push(newTodoItem);
+                e.target.value = '';
+                this.setState({items: this.state.items, allChecked: false});
+            }
         },
         render: function () {
             return (
                     <div>
                         <h1>todos</h1>
-                        <form onSubmit={this.handleSubmit}>
-                            <input onChange={this.onChange} value={this.state.text}/>
-                        </form>
+                        <input onKeyUp={this.handleSubmit.bind(this)} type="text" placeholder="what's your task ?"/>
                         <TodoList items={this.state.items}/>
                     </div>
             );
